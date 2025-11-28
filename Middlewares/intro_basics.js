@@ -17,6 +17,20 @@ app.listen(8080, () => {
     console.log("listening through the port 8080");
 });
 
+const checkToken =  (req, res, next) => {
+    let { token } = req.query;
+    if (token === "give_access") {      // http://localhost:8080/api?token=give_access : could make aur authencate user to work on...
+        next();
+    }
+    else {
+        res.send("Access token is required... ACCESS DENIED!");
+    }
+};
+
+app.get("/api", checkToken ,(req, res) => {     // (req, res) function only runs if the checkToken middleware function return next() else middleware function is executed and (req, res) is ignored
+    res.send("This is highly authentic secured and encrypted Data");
+})
+
 app.use((req, res, next) => {
     // res.send("Ending the req res cycle") //iii> middleware could send response thus stopping the implementation of corresponding api or route
     console.log("1st Middleware was used...");      // if not send any response then page will keep on reloading again n again and nothing will be parsed to the client side.
@@ -34,13 +48,18 @@ app.use((req, res, next) => {
     console.log(req.method, "request is made by", req.hostname, "send though the path ->", req.path);
     // Date.now returns te instant date and time
     req.time = new Date(Date.now()).toString();     // to make it readable wrap it Date object and convert or parse it into string
-    console.log("Request was sent at the time : "+req.time);
+    console.log("Request was sent at the time : " + req.time);
     next(); // next : means that call the corresponding api route
 })
 
 app.get("/", (req, res) => {
     res.send("Root Directory");
 })
-app.get("/home", (req, res) => {
+
+app.get("/home", (req, res) => {        // maches with all the route which are similar to "/home/?" 
     res.send("Home Directory ")
 })
+
+app.use((req, res, next) => {     // by deault path is all path so all the wrong path i.e. 404 page sends the same error message
+    res.send("404 Error : Page Not Found!");
+});

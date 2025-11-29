@@ -17,17 +17,17 @@ app.listen(8080, () => {
     console.log("listening through the port 8080");
 });
 
-const checkToken =  (req, res, next) => {
+const checkToken = (req, res, next) => {
     let { token } = req.query;
     if (token === "give_access") {      // http://localhost:8080/api?token=give_access : could make aur authencate user to work on...
         next();
     }
     else {
-        res.send("Access token is required... ACCESS DENIED!");
+        throw new Error("Access Denied!!!    Access token is mandatory.");
     }
 };
 
-app.get("/api", checkToken ,(req, res) => {     // (req, res) function only runs if the checkToken middleware function return next() else middleware function is executed and (req, res) is ignored
+app.get("/api", checkToken, (req, res) => {     // (req, res) function only runs if the checkToken middleware function return next() else middleware function is executed and (req, res) is ignored
     res.send("This is highly authentic secured and encrypted Data");
 })
 

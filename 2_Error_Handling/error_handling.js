@@ -22,11 +22,13 @@ app.get("/api", (req, res, next)=>{
         res.send("You are Viewing a highly important data");
     }
     else{
-        next(err);
+        throw new ExpressError(401, "Access Token Required!");
+
     }
 });
 
 app.use((err, req, res, next)=>{
-   throw new ExpressError(401, "Access Token Required!");
-   res.send(err);
+    // status/message = x, there x becomes the default value for that variable.
+    let { status=500, message="Sorry for some internal server error!" } = err;      
+    res.status(status).send(message);       // converts err to json
 });

@@ -27,7 +27,8 @@ const User = mongoose.model("User", userSchema);
 const addUser = async() => {
     let user1 = new User({
         username : "Mihir Gupta",
-        address : [{
+        address : [{        // defining a sub schema for child class and this is recogonised by mongodb too.
+            //   _id : false   // this makes it a non sub document and no id will be given by mongodb by default
             location : "29 North City Enclave",
             city : "Lucknow"
         }]

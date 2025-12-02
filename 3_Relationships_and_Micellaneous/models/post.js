@@ -16,5 +16,14 @@ const userSchema = Schema({
 });
 const User = mongoose.model("User", userSchema);
 
+const postSchema = Schema({
+    content : String,
+    likes : Number,
+    user : {
+        type: Schema.Types.ObjectId,
+        ref : "User"
+    }
+});
 
+const Post = mongoose.model("Post", postSchema);
 

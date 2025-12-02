@@ -12,3 +12,16 @@ main().then(()=>{
 
 let { Schema } = mongoose;
 
+const userSchema = Schema({
+    username : String,
+    address : [
+        {
+            location : String,
+            city : String
+        }
+    ]
+});
+
+const User = mongoose.model("User", userSchema);
+
+

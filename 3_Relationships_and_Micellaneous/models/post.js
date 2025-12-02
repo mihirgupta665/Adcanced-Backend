@@ -9,3 +9,12 @@ main().then(()=>{
     console.log("Error in connecting with the database...");
 })
 
+let  {Schema} = mongoose;
+const userSchema = Schema({
+    name : String,
+    email : String
+});
+const User = mongoose.model("User", userSchema);
+
+
+

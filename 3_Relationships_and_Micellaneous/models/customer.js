@@ -17,25 +17,25 @@ const orderSchema = Schema({
 
 const Order = mongoose.model("Order", orderSchema);
 
-let addOrder = async () => {
-    let result = await Order.insertMany([
-        {
-            item : "Samosa",
-            price : 12
-        },
-        {
-            item : "Chips",
-            price : 25
-        },
-        {
-            item: "Chocolate",
-            price : 120
-        }
-    ]);
-    console.log(result);
-}
+// let addOrder = async () => {
+//     let result = await Order.insertMany([
+//         {
+//             item : "Samosa",
+//             price : 12
+//         },
+//         {
+//             item : "Chips",
+//             price : 25
+//         },
+//         {
+//             item: "Chocolate",
+//             price : 120
+//         }
+//     ]);
+//     console.log(result);
+// }
 
-addOrder();
+// addOrder();
 
 const customerSchema = Schema({
     name: String,
@@ -47,3 +47,21 @@ const customerSchema = Schema({
     ]
 });
 
+const Customer = mongoose.model("Customer", customerSchema);
+
+let addCustomer = async () =>{
+    let customer1 = new Customer({      // only name is inserted, order could be inserted later on
+        name: "Mihir Gupta",
+    });
+
+    let order1 = await Order.findOne({ item : "Chips"});        // order is finded by findOne function and one value of item
+    let order2 = await Order.findOne({ item : "Chocolate"});
+
+    customer1.orders.push(order1);      // although type is just the id butu the intire order could be pushed
+    customer1.orders.push(order2);
+
+    let result = await customer1.save();        // always save the saved document and try to print it for debugging purpose
+    console.log(result);
+}
+
+addCustomer();

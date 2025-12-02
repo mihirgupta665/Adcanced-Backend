@@ -49,6 +49,7 @@ const customerSchema = Schema({
 
 const Customer = mongoose.model("Customer", customerSchema);
 
+/*
 let addCustomer = async () =>{
     let customer1 = new Customer({      // only name is inserted, order could be inserted later on
         name: "Mihir Gupta",
@@ -57,11 +58,24 @@ let addCustomer = async () =>{
     let order1 = await Order.findOne({ item : "Chips"});        // order is finded by findOne function and one value of item
     let order2 = await Order.findOne({ item : "Chocolate"});
 
-    customer1.orders.push(order1);      // although type is just the id butu the intire order could be pushed
-    customer1.orders.push(order2);
+    customer1.orders.push(order1);      // although type is just the id but the intire order could be pushed
+    customer1.orders.push(order2);      // mongoose will show that entire object is pushed but in mongodb only the object id will be stored.
 
     let result = await customer1.save();        // always save the saved document and try to print it for debugging purpose
     console.log(result);
 }
 
 addCustomer();
+*/
+
+const findCustomer = async () => {
+    let result1 = await Customer.find({});
+    console.log(result1);
+
+    // .populate("field_containing_Object_Id") : is used to replace the objectid with the corresponding object data(informations).
+    let result2 = await Customer.find({}).populate("orders");
+    console.log(result2);
+    console.log(result2[0]);
+}
+
+findCustomer();

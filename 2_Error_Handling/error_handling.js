@@ -29,6 +29,6 @@ app.get("/api", (req, res, next)=>{
 
 app.use((err, req, res, next)=>{
     // status/message = x, there x becomes the default value for that variable.
-    let { status=500, message="Sorry for some internal server error!" } = err;      
+    let { status=500, message="Sorry for some internal server error!" } = err;     // destructuring the error 
     res.status(status).send(message);       // converts err to json
 });

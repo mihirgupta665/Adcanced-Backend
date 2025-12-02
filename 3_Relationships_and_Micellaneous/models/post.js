@@ -1,4 +1,4 @@
-// one to too many
+// one to too many (squillions)     // adding parent directly to child collection
 const mongoose = require("mongoose");
 async function main(){
     await mongoose.connect("mongodb://127.0.0.1:27017/relationships_demo");
@@ -27,6 +27,7 @@ const postSchema = Schema({
 });
 const Post = mongoose.model("Post", postSchema);
 
+/*
 const addData = async () => {
     let user1 = new User({
         name : "Mihir Gupta",
@@ -44,3 +45,13 @@ const addData = async () => {
 }
 
 addData();
+*/
+
+const populateData = async () => {
+    let result = await Post.find({}).populate("user", "name");      // polulate the object's parameter path
+    console.log(result);
+}
+
+populateData();
+
+// denormalization : Storing Copy or duplicates

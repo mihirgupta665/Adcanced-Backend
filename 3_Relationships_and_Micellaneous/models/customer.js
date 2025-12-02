@@ -1,4 +1,4 @@
-// one to many
+// one to many  // approach 2 : array of child's object id referneces
 const mongoose = require("mongoose");
 let {Schema} = mongoose;
 async function main(){

@@ -1,3 +1,4 @@
+// one to too many
 const mongoose = require("mongoose");
 async function main(){
     await mongoose.connect("mongodb://127.0.0.1:27017/relationships_demo");
@@ -24,6 +25,22 @@ const postSchema = Schema({
         ref : "User"
     }
 });
-
 const Post = mongoose.model("Post", postSchema);
 
+const addData = async () => {
+    let user1 = new User({
+        name : "Mihir Gupta",
+        email : "mihirgupta665@gmail.com"
+    });
+    await user1.save();
+
+    let post1 = new Post({
+        content : "This is my post!",
+        likes : 7,
+    });
+
+    post1.user = user1;
+    await post1.save();
+}
+
+addData();

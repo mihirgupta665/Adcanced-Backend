@@ -1,3 +1,4 @@
+// one to many
 const mongoose = require("mongoose");
 let {Schema} = mongoose;
 async function main(){

@@ -24,4 +24,25 @@ const userSchema = Schema({
 
 const User = mongoose.model("User", userSchema);
 
+const addUser = async() => {
+    let user1 = new User({
+        username : "Mihir Gupta",
+        address : [{
+            location : "29 North City Enclave",
+            city : "Lucknow"
+        }]
+    });
+
+    user1.address.push({
+        location : "409 Bh-2 Lovely Professional University",
+        city : "Jalandhar"
+    });
+
+    let result = await user1.save();        // returns the added user
+    console.log(result);
+}
+
+addUser();
+
+
 

@@ -69,6 +69,7 @@ let addCustomer = async () =>{
 addCustomer();
 */
 
+/*
 const findCustomer = async () => {
     let result1 = await Customer.find({});
     console.log(result1);
@@ -80,3 +81,24 @@ const findCustomer = async () => {
 }
 
 findCustomer();
+*/
+
+const addNew = async () => {
+    let newOrder = new Order({
+        item : "pizza",
+        price : 450
+    });
+
+    let newCustomer = new Customer({
+        name : "Vaishali",
+    });
+
+    await newOrder.save();
+
+    newCustomer.orders.push(newOrder);
+    await newCustomer.save();
+
+    console.log("New Customer Successfully Inserted");
+}
+
+addNew();

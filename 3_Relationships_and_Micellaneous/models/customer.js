@@ -53,8 +53,10 @@ const customerSchema = Schema({
 customerSchema.pre("findOneAndDelete", async () => {
     console.log("Pre middleware");
 });
-customerSchema.post("findOneAndDelete", async () => {
-    console.log("Post Middleware");
+customerSchema.post("findOneAndDelete", async (del_cust) => {
+    let del_orders = await Order.deleteMany({ _id : { $in : del_cust.orders}});      // each order_id tith corresponding orders of customer will be deleted 
+    console.log("Deleting orders");
+    console.log(del_orders);
 });
 
 const Customer = mongoose.model("Customer", customerSchema);
@@ -94,7 +96,7 @@ const findCustomer = async () => {
 findCustomer();
 */
 
-/*
+
 const addNew = async () => {
     let newOrder = new Order({
         item : "pizza",
@@ -113,23 +115,21 @@ const addNew = async () => {
     console.log("New Customer Successfully Inserted");
 }
 
-addNew();
-*/
+// addNew();
+
 
 /*
 Mongoose Middleware : 
     pre: runs before the query is executed
     post: runs after the query is executed
-
-
-
 */
 
 // to delete thorugh mogosh write  db.orders.deleteOne({_id : ObjectId("6930409d77de926e6b7825f7")})
 
 
 const delNew = async () => {
-    let delres = await Customer.findByIdAndDelete('6930409d77de926e6b7825f8');
+    let delres = await Customer.findByIdAndDelete('693073e47977a73e3905c3ca');      
+    // await will delete and then execute the post middlware function then after control will come back
     console.log(delres);
 }
 

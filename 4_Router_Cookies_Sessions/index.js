@@ -12,7 +12,11 @@ app.listen(3000, ()=>{
     console.log("Listening through port 3000");
 })
 
-app.use(expressSession({secret : "MySuperSecretCode"}));    // Session ID : every page of teh website will be having now a session id
+app.use(expressSession({
+    secret : "MySuperSecretCode",
+    resave: false,
+    saveUninitialized : true
+}));    // Session ID : every page of teh website will be having now a session id
 app.use(cookieParser("secret"));
 app.use("/posts", Posts);
 app.use("/users", Users);
@@ -23,3 +27,14 @@ app.get("/", (req, res)=>{
 app.get("/test", (req, res)=>{
     res.send("Testing Successfull");
 });
+app.get("/record", (req, res)=>{
+    if(req.session.count){
+        req.session.count++;
+    }
+    else{
+        req.session.count=1;    // stored in memory storage (default server side temporary session storage)
+    }
+    res.send(`The Response is made for the ${req.session.count} times`);
+});
+
+// default server side session temporary storage is called as memeory storage

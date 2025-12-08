@@ -45,13 +45,22 @@ app.get("/record", (req, res)=>{
 
 app.get("/register", (req, res)=>{
     let { name = "anonymous" } = req.query;
-    req.flash("success", "User Registered Successfully");   // first time flash for key need to be written written in pair of key and vlaue
     req.session.name = name;
+    if(name == "anonymous"){
+        // first time flash for key need to be written written in pair of key and vlaue
+        req.flash("error", "Error in Registration!");       
+    }
+    else{
+        req.flash("success", "User Registered Successfully!");  // defining req.flash(message);
+    }
     res.redirect("/greet");
 });
 
 app.get("/greet", (req, res)=>{
-    res.render("show.ejs", { name : req.session.name, msg : req.flash("success") });    // already initialized flash message could be extracted using the key
+    res.locals.successMsg = req.flash("success");       // creatign local variable : they can be accessed by name directly
+    res.locals.errorMsg = req.flash("error");
+    // res.render("show.ejs", { name : req.session.name, msg : req.flash("success") });    // already initialized flash message could be extracted using the key
+    res.render("show.ejs", { name: req.session.name });    // already initialized flash message could be extracted using the key
 });
 
 // default server side session temporary storage is called as memeory storage
